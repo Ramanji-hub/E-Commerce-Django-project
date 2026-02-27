@@ -1,4 +1,4 @@
-from typing import Reversible
+from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
@@ -33,7 +33,7 @@ class Product(models.Model):
     img = models.ImageField(upload_to="images/")
 
     def get_add_to_cart_url(self):
-        return Reversible("core:add-to-cart", kwargs={"pk": self.pk})
+        return reverse("core:add-to-cart", kwargs={"pk": self.pk})
 
     def __str__(self):
         return self.name
@@ -56,7 +56,7 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='core_orders')
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()

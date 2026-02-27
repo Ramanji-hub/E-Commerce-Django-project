@@ -1,0 +1,14 @@
+<h1>All Products</h1>
+
+{% for product in products %}
+    <div>
+        <h3>{{ product.name }}</h3>
+        <p>₹{{ product.price }}</p>
+        <a href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+    </div>
+{% empty %}
+    <p>No products available</p>
+{% endfor %}
+
+<br>
+<a href="{% url 'cart' %}">Go to Cart</a>
